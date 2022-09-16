@@ -1,0 +1,206 @@
+tags:
+  - name: Doctor
+    description: Doctor endpoints
+paths:
+  /dr/{id}:
+    get:
+      tags:
+        - Doctor
+      summary: Get doctor by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: UUID ID of the doctor to get
+          example: 1527072d-b281-496e-bf18-0b6e8d933b1b
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: OK
+                data: {}
+    delete:
+      tags:
+        - Doctor
+      summary: New Request
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                errors: Resource not found
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Resource deleted successfuly
+                data: {}
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: UUID ID of the doctor to get
+          example: 1527072d-b281-496e-bf18-0b6e8d933b1b
+  /dr:
+    get:
+      tags:
+        - Doctor
+      summary: Get all doctors
+      responses:
+        undefined:
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: All doctos data
+                data: []
+    post:
+      tags:
+        - Doctor
+      summary: Add a dcotor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: Mohab
+                lastName: Alnajjar
+                jobTitle: Belya
+                email: mail@mail.com
+                university: Tanta
+                phone: "01211325591"
+                placeOfWork: Hospital
+                specialty: 1
+                scientificDegree: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Resource added successfuly
+                data: {}
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Duplicted email
+                  value:
+                    message: Email already in use
+                example-1:
+                  summary: Specialty bot found
+                  value:
+                    message: Specialty bot found
+                example-2:
+                  summary: Scientific degree not found
+                  value:
+                    message: Scientific degree not found
+                example-3:
+                  summary: Invalid input data
+                  value:
+                    errors: {}
+                example-4:
+                  summary: Duplicted phone
+                  value:
+                    message: Phone number already in use
+    put:
+      tags:
+        - Doctor
+      summary: Update a docotr
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 5731bd77-5c57-4917-98d8-533f2b736cb8
+                firstName: Hamo
+                lastName: Elwensh
+                jobTitle: Belya
+                email: mail@mail.com
+                university: Tanta
+                phone: "01211325591"
+                placeOfWork: Hospital
+                specialty: 1
+                scientificDegree: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Resource updated successfuly
+                data:
+                  fullName: Hamo Elwensh
+                  isRegistered: false
+                  id: 5731bd77-5c57-4917-98d8-533f2b736cb8
+                  firstName: Hamo
+                  lastName: Elwensh
+                  jobTitle: Belya
+                  email: mail@mail.com
+                  university: Tanta
+                  phone: "01211325591"
+                  password: null
+                  imagePath: null
+                  placeOfWork: Hospital
+                  isDead: false
+                  scientificDegreeId: 1
+                  specialtyId: 1
+                  updatedAt: "2022-09-16T15:03:52.598Z"
+                  specialty:
+                    id: 1
+                    name: Allergy and immunology
+                  scientificDegree:
+                    id: 1
+                    name: Professor
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Duplicted email
+                  value:
+                    message: Email already in use
+                example-1:
+                  summary: Specialty bot found
+                  value:
+                    message: Specialty bot found
+                example-2:
+                  summary: Scientific degree not found
+                  value:
+                    message: Scientific degree not found
+                example-3:
+                  summary: Invalid input data
+                  value:
+                    errors: {}
+                example-4:
+                  summary: Duplicted phone
+                  value:
+                    message: Phone number already in use

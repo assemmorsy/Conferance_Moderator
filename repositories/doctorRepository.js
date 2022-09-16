@@ -1,20 +1,23 @@
 const Doctor = require('../models/doctor');
+const ScientificDegree = require('../models/scientificDegree');
+const Specialty = require('../models/specialty');
 
 exports.addDoctor = async (doctor) => {
   return await Doctor.create(doctor);
 }
 
 exports.getDoctorById = async (id) => {
-  return await Doctor.findByPk(id);
+	return await Doctor.findByPk(id, {include: [Specialty, ScientificDegree]});
 }
 
 exports.getAllDoctors = async () => {
-  return await Doctor.findAll();
+	return await Doctor.findAll({
+		include: [Specialty, ScientificDegree]
+	});
 }
 
 exports.updateDoctor = async (doctor, updatedDoctor) => {
-	await doctor.update(updatedDoctor);
-	return await doctor.save();
+	return await doctor.update(updatedDoctor);
 }
 
 exports.deleteDoctor = async (doctor) => {

@@ -2,14 +2,15 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 
-const PATH = path.normalize(path.dirname(require.main.filename) + '\\docs\\v1\\**\\*.js');
+const PATH = path.normalize(path.dirname(require.main.filename) + '\\docs\\v1\\**\\*.yaml');
 module.exports = (app, root) => {
   const swaggerOptions = {
     definition: {
       openapi: "3.0.0",
       info: {
         title: "Conferance Moderator API Docs",
-        version: '1.0.0'
+        version: '1.0.0',
+        description: 'Description:'
       },
       servers: [
         {
