@@ -40,3 +40,11 @@ exports.getDoctorByPhone = async (phone) => {
 		}
 	});
 }
+
+exports.addManyDoctors = async (doctors) => {
+	return await Doctor.bulkCreate(doctors);
+}
+
+exports.truncateDoctorTable = async () => {
+	await Doctor.truncate();
+}

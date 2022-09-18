@@ -1,16 +1,19 @@
 {
-  "development": {
+  "dev": {
     "username": "postgres",
     "password": "123",
     "database": "ConferanceModerator",
     "host": "localhost",
-    "dialect": "postgres"
-    ,"logging":false
+    "dialect": "postgres",
+    "logging":false
   },
   "test": {
-
+    "username": "postgres",
+    "password": "123",
+    "database": "ConferanceModerator_Test",
+    "host": "localhost",
+    "dialect": "postgres",
+    "logging": false
   },
-  "production": {
-
-  }
+  "production": {}
 }

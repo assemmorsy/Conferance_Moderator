@@ -28,7 +28,7 @@ paths:
     delete:
       tags:
         - Doctor
-      summary: New Request
+      summary: Delete doctor by id
       responses:
         "404":
           description: Not Found
@@ -55,80 +55,18 @@ paths:
           required: true
           description: UUID ID of the doctor to get
           example: 1527072d-b281-496e-bf18-0b6e8d933b1b
-  /dr:
-    get:
-      tags:
-        - Doctor
-      summary: Get all doctors
-      responses:
-        undefined:
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                message: All doctos data
-                data: []
-    post:
-      tags:
-        - Doctor
-      summary: Add a dcotor
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                firstName: Mohab
-                lastName: Alnajjar
-                jobTitle: Belya
-                email: mail@mail.com
-                university: Tanta
-                phone: "01211325591"
-                placeOfWork: Hospital
-                specialty: 1
-                scientificDegree: 1
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                message: Resource added successfuly
-                data: {}
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-              examples:
-                example-0:
-                  summary: Duplicted email
-                  value:
-                    message: Email already in use
-                example-1:
-                  summary: Specialty bot found
-                  value:
-                    message: Specialty bot found
-                example-2:
-                  summary: Scientific degree not found
-                  value:
-                    message: Scientific degree not found
-                example-3:
-                  summary: Invalid input data
-                  value:
-                    errors: {}
-                example-4:
-                  summary: Duplicted phone
-                  value:
-                    message: Phone number already in use
     put:
       tags:
         - Doctor
-      summary: Update a docotr
+      summary: Update a doctor
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: UUID ID of the doctor to get
+          example: 1527072d-b281-496e-bf18-0b6e8d933b1b
       requestBody:
         content:
           application/json:
@@ -177,6 +115,76 @@ paths:
                   scientificDegree:
                     id: 1
                     name: Professor
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Duplicted email
+                  value:
+                    message: Email already in use
+                example-1:
+                  summary: Specialty not found
+                  value:
+                    message: Specialty not found
+                example-2:
+                  summary: Scientific degree not found
+                  value:
+                    message: Scientific degree not found
+                example-3:
+                  summary: Invalid input data
+                  value:
+                    errors: {}
+                example-4:
+                  summary: Duplicted phone
+                  value:
+                    message: Phone number already in use
+  /dr:
+    get:
+      tags:
+        - Doctor
+      summary: Get all doctors
+      responses:
+        undefined:
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: All doctos data
+                data: []
+    post:
+      tags:
+        - Doctor
+      summary: Add a dcotor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: Mohab
+                lastName: Alnajjar
+                jobTitle: Belya
+                email: mail@mail.com
+                university: Tanta
+                phone: "01211325591"
+                placeOfWork: Hospital
+                specialty: 1
+                scientificDegree: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Resource added successfuly
+                data: {}
         "400":
           description: Bad Request
           content:

@@ -5,14 +5,14 @@ const ScientificDegree = require("./scientificDegree");
 const Specialty = require("./specialty");
 
 class Doctor extends Model {
-	static associate(models) { 
-		Doctor.belongsTo(models.specialty, {
-			foreignKey: 'specialtyId'
-		});
-		Doctor.belongsTo(models.scientificDegree, {
-			foreignKey: 'scientificDegreeId'
-		});
-	}
+  static associate(models) {
+    Doctor.belongsTo(models.specialty, {
+      foreignKey: 'specialtyId'
+    });
+    Doctor.belongsTo(models.scientificDegree, {
+      foreignKey: 'scientificDegreeId'
+    });
+  }
 }
 
 const options = {
@@ -111,21 +111,21 @@ const attributes = {
   },
   isDead: {
     type: DataTypes.BOOLEAN,
-		defaultValue: false
+    defaultValue: false
   },
   scientificDegreeId: {
     type: DataTypes.INTEGER,
-		references: {
-			model: ScientificDegree,
-			key: 'id'
-		}
+    references: {
+      model: ScientificDegree,
+      key: 'id'
+    }
   },
   specialtyId: {
     type: DataTypes.INTEGER,
-		references: {
-			model: Specialty,
-			key: 'id'
-		}
+    references: {
+      model: Specialty,
+      key: 'id'
+    }
   }
 }
 
