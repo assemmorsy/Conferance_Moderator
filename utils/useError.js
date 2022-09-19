@@ -5,11 +5,10 @@ const useError = (msg, status) => {
 }
 
 const useValidationError = (errors) => {
-	let errorList = [];
-  errors.array().reduce((msg, err) => {
-    errorList.push(msg + `${err.msg} at field ${err.param}`) ;
+  let errorMsgs = errors.array().reduce((msg, err) => {
+    return msg + `${err.msg} at field ${err.param} / `;
   }, "")
-  return useError(errorList, 400)
+  return useError(errorMsgs, 400);
 }
 
 module.exports = { useError, useValidationError };

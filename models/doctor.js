@@ -95,8 +95,8 @@ const attributes = {
     type: DataTypes.STRING,
     set(value) {
       if (value) {
-        hashedValue = bcrypt.hashSync(value, 10)
-        this.setDataValue('password', hashedValue)
+        hashedValue = bcrypt.hashSync(value, 10);
+        this.setDataValue('password', hashedValue);
       }
     }
   },

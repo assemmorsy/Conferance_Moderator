@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 10000 --exit",
+    "test": "mocha --require test/rootHook.js test/ --timeout 10000 --exit",
     "start": "nodemon app.js"
   },
   "repository": {

@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, oneOf, check } = require('express-validator');
 
 module.exports = [
   body("firstName").isAlpha().isLength({ min: 2 }),
@@ -9,5 +9,8 @@ module.exports = [
 	body('scientificDegree').isInt(),
 	body('placeOfWork').isString(),
 	body('jobTitle').isString(),
-	body('university').isString()
+	body('university').isString(),
+	oneOf([
+		check('tokenUserRole').equals('user')
+	], 'Invalid system role')
 ]

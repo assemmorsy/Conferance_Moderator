@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const doctorEndpoints = require('../endpoints/doctor');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 const doctorValidators = require('../validators/doctor');
+
+router.use(authMiddleware);
 
 router.get('/dr', doctorEndpoints.getAllDoctors);
 router.get('/dr/:id', doctorEndpoints.getDrById);
