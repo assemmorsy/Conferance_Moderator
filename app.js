@@ -1,42 +1,45 @@
 const express = require('express');
-const morgan = require('morgan');
+const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
-const db = require('./utils/db');
 const swagger = require('./utils/swagger');
-
 const routerRegister = require('./middlewares/routersRegister');
-const notFoundResourceMiddleware = require('./middlewares/notFoundResourceMiddleWare');
-const errorHandlerMiddleware = require('./middlewares/errorHandlerMiddleware');
-const associate = require('./models/associate');
-const seedData = require('./utils/dataSeeder');
+const notFoundResourceMiddleware = require('./middlewares/notFoundResource.middleaare');
+const errorHandlerMiddleware = require('./middlewares/errorHandler.middleware');
+const postgresConnector = require('./utils/postgresConnector');
+const staticFileServing = require('./middlewares/staticFileServing');
 
 const app = express();
-db.sequelize.authenticate()
-  .then(() => {
-    console.log("conntected to database");
-    return db.sequelize.sync({ logging: console.log, alert: true });
-  })
-  .then(() => {
-		associate();
-		seedData();
-    app.listen(process.env.DEV_PORT | 8080, () => {
-      console.log('Listening on port ' + process.env.DEV_PORT);
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-    db.sequelize.close();
+
+/**
+ * Infrastructure
+ */
+
+postgresConnector()
+  .then((isConnected) => {
+    if (isConnected) {
+      app.listen(process.env.DEV_PORT | 8080, () => {
+        console.log('Listening on port ' + process.env.DEV_PORT);
+      });
+    }
   });
 
-/*
- * MW
-*/
+/**
+ * Services
+ */
+
 swagger(app);
 app.use(cors());
-app.use(morgan('combined'));
+app.use(logger('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' }));
 app.use(bodyParser.json());
+
+/**
+ * Middlewares
+*/
 routerRegister(app);
+staticFileServing(app);
 notFoundResourceMiddleware(app);
 errorHandlerMiddleware(app);
+
+module.exports = app;

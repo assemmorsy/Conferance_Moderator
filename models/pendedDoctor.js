@@ -4,21 +4,15 @@ const db = require('../utils/db');
 const ScientificDegree = require("./scientificDegree");
 const Specialty = require("./specialty");
 
-class Doctor extends Model {
+class PendedDoctor extends Model {
   static associate(models) {
-    Doctor.belongsTo(models.specialty, {
-      foreignKey: 'specialtyId'
-    });
-    Doctor.belongsTo(models.scientificDegree, {
-      foreignKey: 'scientificDegreeId'
-    });
   }
 }
 
 const options = {
   sequelize: db.sequelize,
   timestamps: true, createdAt: false, updatedAt: true,
-  modelName: 'doctors'
+  modelName: 'pended_doctors'
 }
 
 const attributes = {
@@ -115,20 +109,12 @@ const attributes = {
   },
   scientificDegreeId: {
     type: DataTypes.INTEGER,
-    references: {
-      model: ScientificDegree,
-      key: 'id'
-    }
   },
   specialtyId: {
     type: DataTypes.INTEGER,
-    references: {
-      model: Specialty,
-      key: 'id'
-    }
   }
 }
 
-Doctor.init(attributes, options);
+PendedDoctor.init(attributes, options);
 
-module.exports = Doctor;
+module.exports = PendedDoctor;

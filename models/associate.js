@@ -1,13 +1,12 @@
 const models = {
-	doctor: require('./doctor'),
-	specialty: require('./specialty'),
-	scientificDegree: require('./scientificDegree')
+  doctor: require('./doctor'),
+  specialty: require('./specialty'),
+  scientificDegree: require('./scientificDegree'),
+	pendedDoctor: require('./pendedDoctor')
 }
 
-const associate = async () => {
-	for(const key in models) {
-		models[key].associate(models);
-	}
+module.exports = async () => {
+  for (const key in models) {
+    models[key].associate(models);
+  }
 }
-
-module.exports = associate;

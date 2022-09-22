@@ -1,7 +1,8 @@
 module.exports = {
-  getDrById: require('./getDrById'),
-  getAllDoctors: require('./getAllDoctors'),
+  getDrById: require('./getDrById.endpoint'),
+  getAllDoctors: require('./getAllDoctors.endpoint'),
   deleteDoctorById: require('./deleteDoctorById'),
-  addNewDoctor: require('./addNewDoctor'),
-  updateDoctor: require('./updateDoctor')
+  addNewDoctor: require('./addNewDoctor.endpoint'),
+  updateDoctor: require('./updateDoctor.endpoint'),
+  updateDoctorImage: require('./updateDoctorImage.endpoint')
 }
