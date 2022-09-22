@@ -1,4 +1,4 @@
 module.exports = {
-  addDoctorValidator: require('./addDoctorValidator'),
-  updateDoctorValidator: require('./updateDoctorValidator')
+  addDoctorValidator: require('./addDoctor.validator'),
+  updateDoctorValidator: require('./updateDoctor.validator')
 }

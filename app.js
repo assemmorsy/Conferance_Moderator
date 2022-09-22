@@ -5,9 +5,10 @@ const cors = require('cors');
 const dotenv = require('dotenv').config();
 const swagger = require('./utils/swagger');
 const routerRegister = require('./middlewares/routersRegister');
-const notFoundResourceMiddleware = require('./middlewares/notFoundResourceMiddleWare');
-const errorHandlerMiddleware = require('./middlewares/errorHandlerMiddleware');
+const notFoundResourceMiddleware = require('./middlewares/notFoundResource.middleaare');
+const errorHandlerMiddleware = require('./middlewares/errorHandler.middleware');
 const postgresConnector = require('./utils/postgresConnector');
+const staticFileServing = require('./middlewares/staticFileServing');
 
 const app = express();
 
@@ -36,8 +37,8 @@ app.use(bodyParser.json());
 /**
  * Middlewares
 */
-
 routerRegister(app);
+staticFileServing(app);
 notFoundResourceMiddleware(app);
 errorHandlerMiddleware(app);
 

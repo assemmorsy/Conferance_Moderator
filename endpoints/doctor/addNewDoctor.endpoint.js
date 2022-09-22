@@ -1,9 +1,9 @@
 const {validationResult} = require('express-validator');
 const ScientificDegree = require('../../models/scientificDegree');
 const Specialty = require('../../models/specialty');
-const drRepo = require('../../repositories/doctorRepository');
-const {getScientificDegreeById} = require('../../repositories/scientificDegreeRepository');
-const {getSpecialtyById} = require('../../repositories/specialtyRepository');
+const drRepo = require('../../repositories/doctor.repository');
+const {getScientificDegreeById} = require('../../repositories/scientificDegree.repository');
+const {getSpecialtyById} = require('../../repositories/specialty.repository');
 const {useValidationError, useError} = require('../../utils/useError');
 
 module.exports = async (req, res, next) => {

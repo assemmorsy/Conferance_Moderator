@@ -48,3 +48,9 @@ exports.addManyDoctors = async (doctors) => {
 exports.truncateDoctorTable = async () => {
 	await Doctor.truncate();
 }
+
+exports.updateDoctorProfileImage = async (doctor, imgPath) => {
+	await doctor.update({
+		imagePath: imgPath
+	});
+}

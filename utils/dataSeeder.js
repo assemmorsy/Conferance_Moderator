@@ -1,7 +1,7 @@
 const Specialty = require("../models/specialty");
 const ScientificDegree = require('../models/scientificDegree');
-const {isSpecialtyTableHasRecords} = require("../repositories/specialtyRepository");
-const {isScientificDegreeTableHasRecords} = require("../repositories/scientificDegreeRepository");
+const {isSpecialtyTableHasRecords} = require("../repositories/specialty.repository");
+const {isScientificDegreeTableHasRecords} = require("../repositories/scientificDegree.repository");
 
 
 module.exports = async () => {

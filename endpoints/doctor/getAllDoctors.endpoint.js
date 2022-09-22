@@ -1,4 +1,4 @@
-const drRepo = require('../../repositories/doctorRepository');
+const drRepo = require('../../repositories/doctor.repository');
 
 module.exports = async (req, res, next) => {
   try {

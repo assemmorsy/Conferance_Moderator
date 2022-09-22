@@ -11,6 +11,7 @@ exports.records = [{
   specialty: 1,
   scientificDegree: 1
 }, {
+	id: 'b4a787cf-abbe-46e9-979f-fc9c5b1dade6',
   firstName: "First",
   lastName: "Last",
   jobTitle: "Doctor",

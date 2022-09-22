@@ -1,7 +1,8 @@
 const models = {
   doctor: require('./doctor'),
   specialty: require('./specialty'),
-  scientificDegree: require('./scientificDegree')
+  scientificDegree: require('./scientificDegree'),
+	pendedDoctor: require('./pendedDoctor')
 }
 
 module.exports = async () => {

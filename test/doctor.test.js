@@ -1,8 +1,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
+const appRoot = require('app-root-path');
+const fs = require('fs');
 
-const { truncateDoctorTable, addManyDoctors } = require("../repositories/doctorRepository");
+const { truncateDoctorTable, addManyDoctors } = require("../repositories/doctor.repository");
 
 
 const Doctor = require('../models/doctor');
@@ -10,20 +12,36 @@ const app = require('../app');
 const should = chai.should();
 const randomEmailGenerator = require('random-email');
 const uuidGenerator = require('uuid');
-const jwtGenerator = require('../utils/jwtGenerator');
 const { records } = require('./testingData');
+const {generateJwtForLoggedInUser} = require('../utils/jwtGenerator');
 
 chai.use(chaiHttp);
 
 const doctor = records[0];
 const DUP_DOCTOR = records[1];
 
-const JWT_TOKEN = jwtGenerator({
+const JWT_TOKEN = generateJwtForLoggedInUser({
   id: doctor.id,
   role: 'user'
 });
 
 describe('Doctors', () => {
+
+  after(() => {
+    const imagesPath = appRoot + '/images/doctors-profiles';
+    try {
+      const files = fs.readdirSync(imagesPath)
+      files.forEach(file => {
+        if (file.split('.')[0] === 'test-sample') {
+
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  });
+
+
   /**
    * GET
    */
@@ -263,12 +281,35 @@ describe('Doctors', () => {
       );
     });
   });
+
+  /**
+   * /PUT/ dr/:id/profile-img
+   */
+  describe('/dr/:id/profile-img', () => {
+    it('It should update doctor profile image successfuly', async () => {
+      const res = await chai
+        .request(app)
+        .put('/dr/' + DUP_DOCTOR.id + '/profile-img')
+        .attach('drImg', __dirname + '/sample-image.jpg')
+        .set({ Authorization: `Bearer ${JWT_TOKEN}` });
+      return (
+        res.should.have.status(200)
+      );
+    });
+  });
+
+	// Submit non image format
+  describe('/dr/:id/profile-img', () => {
+    it("It shouldn't accept non image format", async () => {
+      const res = await chai
+        .request(app)
+        .put('/dr/' + DUP_DOCTOR.id + '/profile-img')
+        .attach('drImg', __dirname + '/textFile.txt')
+        .set({ Authorization: `Bearer ${JWT_TOKEN}` });
+      return (
+        res.should.have.status(400)
+      );
+    });
+  });
 });
 
-
-const suppressConsoleLogging = () => {
-  sinon.stub(console, 'log');
-  sinon.stub(console, 'info');
-  sinon.stub(console, 'warn');
-  sinon.stub(console, 'error');
-}
