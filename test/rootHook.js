@@ -12,7 +12,7 @@ exports.mochaGlobalSetup = async function () {
     console.log('-----> Sync db...');
     await new Promise(resolve => setTimeout(resolve, 500));
     console.log('-----> Truncate tables');
-    await truncateDoctorTable();
+    // await truncateDoctorTable();
     await truncatePendedDoctorTable();
     console.log('-----> Seeding testing data');
     await addManyDoctors(records);

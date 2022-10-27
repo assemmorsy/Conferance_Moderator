@@ -7,13 +7,13 @@ const fs = require('fs');
 const { truncateDoctorTable, addManyDoctors } = require("../repositories/doctor.repository");
 
 
-const Doctor = require('../models/doctor');
+const Doctor = require('../models/user.model');
 const app = require('../app');
 const should = chai.should();
 const randomEmailGenerator = require('random-email');
 const uuidGenerator = require('uuid');
 const { records } = require('./testingData');
-const {generateJwtForLoggedInUser} = require('../utils/jwtGenerator');
+const { generateJwtForLoggedInUser } = require('../utils/jwtGenerator');
 
 chai.use(chaiHttp);
 
@@ -298,7 +298,7 @@ describe('Doctors', () => {
     });
   });
 
-	// Submit non image format
+  // Submit non image format
   describe('/dr/:id/profile-img', () => {
     it("It shouldn't accept non image format", async () => {
       const res = await chai

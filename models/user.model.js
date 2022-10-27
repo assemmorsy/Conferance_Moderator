@@ -36,7 +36,7 @@ const attributes = {
     type: DataTypes.STRING,
     allowNull: false,
     set(value) {
-      this.setDataValue('firstName', value.charAt(0).toUpperCase() + value.slice(1).toLowerCase());
+      this.setDataValue('fullName', value.charAt(0).toUpperCase() + value.slice(1).toLowerCase());
     }
   },
   isRegistered: {
@@ -49,16 +49,6 @@ const attributes = {
   },
   jobTitle: {
     type: DataTypes.TEXT
-  }
-  ,
-  fullName: {
-    type: DataTypes.VIRTUAL,
-    get() {
-      return `${this.firstName} ${this.lastName}`
-    },
-    set(value) {
-      throw new Error("don't try to set 'fullname' value")
-    }
   },
   email: {
     type: DataTypes.STRING,
@@ -67,10 +57,6 @@ const attributes = {
     validate: {
       isEmail: true
     }
-  },
-  university: {
-    type: DataTypes.STRING,
-    allowNull: false,
   },
   phone: {
     type: DataTypes.STRING,
@@ -89,6 +75,7 @@ const attributes = {
       }
     }
   },
+
   imagePath: {
     type: DataTypes.STRING,
     allowNull: true,
@@ -102,13 +89,13 @@ const attributes = {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
-	biography: {
-		type: DataTypes.STRING
-	},
-	nationality: {
-		type: DataTypes.STRING,
+  biography: {
+    type: DataTypes.STRING
+  },
+  nationality: {
+    type: DataTypes.STRING,
     allowNull: false,
-	},
+  },
   scientificDegreeId: {
     type: DataTypes.INTEGER,
     references: {
