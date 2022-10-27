@@ -1,46 +1,46 @@
 const { validationResult } = require('express-validator');
 const ScientificDegree = require('../../models/scientificDegree.model');
 const Specialty = require('../../models/specialty.model');
-const drRepo = require('../../repositories/user.repository');
 const { getScientificDegreeById } = require('../../repositories/scientificDegree.repository');
 const { getSpecialtyById } = require('../../repositories/specialty.repository');
+const { getUserByEmail, getUserByPhone, addUser } = require('../../repositories/user.repository');
 const { useValidationError, useError } = require('../../utils/useError');
 
 module.exports = async (req, res, next) => {
   try {
     const errors = validationResult(req);
-    const doctorData = req.body;
-    const drSpec = req.body.specialty;
-    const drSciDeg = req.body.scientificDegree;
+    const userData = req.body;
+    const UserSpecialty = req.body.specialty;
+    const userSciDeg = req.body.scientificDegree;
 
-    delete doctorData.specialty;
-    delete doctorData.scientificDegree;
+    delete userData.specialty;
+    delete userData.scientificDegree;
 
     if (!errors.isEmpty()) {
       throw useValidationError(errors);
     }
-    if (await drRepo.getDoctorByEmail(doctorData.email)) {
+    if (await getUserByEmail(userData.email)) {
       throw useError('Email already in use', 400);
     }
 
-    if (await drRepo.getDoctorByPhone(doctorData.phone)) {
+    if (await getUserByPhone(userData.phone)) {
       throw useError('Phone number already in use', 400);
     }
 
-    const specialty = await getSpecialtyById(drSpec);
+    const specialty = await getSpecialtyById(UserSpecialty);
     if (!specialty) {
       throw useError("Specialty not found", 400);
     }
 
-    const scientificDegree = await getScientificDegreeById(drSciDeg);
+    const scientificDegree = await getScientificDegreeById(userSciDeg);
     if (!scientificDegree) {
       throw useError("Scientific degree not found", 400);
     }
 
-    const doctor = await drRepo.addDoctor(doctorData);
-    await doctor.setSpecialty(specialty);
-    await doctor.setScientificDegree(scientificDegree);
-    await doctor.reload({
+    const user = await addUser(userData);
+    await user.setSpecialty(specialty);
+    await user.setScientificDegree(scientificDegree);
+    await user.reload({
       attributes: { exclude: ['password'] },
       include: [Specialty, ScientificDegree]
     });

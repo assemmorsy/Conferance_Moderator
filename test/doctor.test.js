@@ -290,7 +290,7 @@ describe('Doctors', () => {
       const res = await chai
         .request(app)
         .put('/dr/' + DUP_DOCTOR.id + '/profile-img')
-        .attach('drImg', __dirname + '/sample-image.jpg')
+        .attach('userImg', __dirname + '/sample-image.jpg')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (
         res.should.have.status(200)
@@ -304,7 +304,7 @@ describe('Doctors', () => {
       const res = await chai
         .request(app)
         .put('/dr/' + DUP_DOCTOR.id + '/profile-img')
-        .attach('drImg', __dirname + '/textFile.txt')
+        .attach('userImg', __dirname + '/textFile.txt')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (
         res.should.have.status(400)

@@ -223,7 +223,7 @@ paths:
             schema:
               type: object
               properties:
-                drImg:
+                userImg:
                   type: string
                   format: binary
       security:

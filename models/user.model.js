@@ -68,16 +68,15 @@ const attributes = {
   },
   password: {
     type: DataTypes.STRING,
+    allowNull: false
   },
 
   imagePath: {
     type: DataTypes.STRING,
-    allowNull: true,
   },
 
   placeOfWork: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: DataTypes.STRING
   },
   isDead: {
     type: DataTypes.BOOLEAN,

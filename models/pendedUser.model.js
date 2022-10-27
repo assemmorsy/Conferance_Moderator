@@ -20,7 +20,8 @@ const attributes = {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
-  }, fullName: {
+  },
+  fullName: {
     type: DataTypes.STRING,
     allowNull: false,
     set(value) {
@@ -56,6 +57,7 @@ const attributes = {
   },
   password: {
     type: DataTypes.STRING,
+    allowNull: false,
     set(value) {
       if (value) {
         hashedValue = bcrypt.hashSync(value, 10);
@@ -65,12 +67,10 @@ const attributes = {
   },
   imagePath: {
     type: DataTypes.STRING,
-    allowNull: true,
   },
 
   placeOfWork: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   isDead: {
     type: DataTypes.BOOLEAN,
