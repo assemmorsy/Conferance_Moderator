@@ -1,10 +1,10 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../utils/db");
 
-class Specialty extends Model {
+class ScientificDegree extends Model {
   static associate(models) {
-    Specialty.hasMany(models.doctor, {
-      as: 'doctors', foreignKey: 'specialtyId'
+    ScientificDegree.hasMany(models.user, {
+      as: 'users', foreignKey: 'scientificDegreeId'
     });
   }
 }
@@ -19,9 +19,9 @@ const attributes = {
 const options = {
   sequelize: db.sequelize,
   timestamps: false,
-  modelName: 'specialty'
+  modelName: 'scientificDegree'
 }
 
-Specialty.init(attributes, options);
+ScientificDegree.init(attributes, options);
 
-module.exports = Specialty;
+module.exports = ScientificDegree;

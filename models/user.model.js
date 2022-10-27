@@ -1,18 +1,29 @@
 const { Model, DataTypes } = require("sequelize");
 const bcrypt = require('bcrypt');
 const db = require('../utils/db');
-const ScientificDegree = require("./scientificDegree");
-const Specialty = require("./specialty");
+const ScientificDegree = require("./scientificDegree.model");
+const Specialty = require("./specialty.model");
+const University = require("./university.model");
 
-class PendedDoctor extends Model {
+class User extends Model {
   static associate(models) {
+
+    User.belongsTo(models.specialty, {
+      foreignKey: 'specialtyId'
+    });
+
+    User.belongsTo(models.scientificDegree, {
+      foreignKey: 'scientificDegreeId'
+    });
+
+
   }
 }
 
 const options = {
   sequelize: db.sequelize,
   timestamps: true, createdAt: false, updatedAt: true,
-  modelName: 'pended_doctors'
+  modelName: 'users'
 }
 
 const attributes = {
@@ -21,27 +32,11 @@ const attributes = {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    set(value) {
-      this.setDataValue('firstName', value.charAt(0).toUpperCase() + value.slice(1).toLowerCase())
-    }
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    set(value) {
-      this.setDataValue('lastName', value.charAt(0).toUpperCase() + value.slice(1).toLowerCase())
-    }
-  },
   fullName: {
-    type: DataTypes.VIRTUAL,
-    get() {
-      return $`{this.firstName} {this.lastName}`;
-    },
-    set() {
-      throw new Error("don't try to set 'fullName' value")
+    type: DataTypes.STRING,
+    allowNull: false,
+    set(value) {
+      this.setDataValue('firstName', value.charAt(0).toUpperCase() + value.slice(1).toLowerCase());
     }
   },
   isRegistered: {
@@ -107,14 +102,36 @@ const attributes = {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+	biography: {
+		type: DataTypes.STRING
+	},
+	nationality: {
+		type: DataTypes.STRING,
+    allowNull: false,
+	},
   scientificDegreeId: {
     type: DataTypes.INTEGER,
+    references: {
+      model: ScientificDegree,
+      key: 'id'
+    }
   },
   specialtyId: {
     type: DataTypes.INTEGER,
+    references: {
+      model: Specialty,
+      key: 'id'
+    }
+  },
+  universityId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: University,
+      key: 'id'
+    }
   }
 }
 
-PendedDoctor.init(attributes, options);
+User.init(attributes, options);
 
-module.exports = PendedDoctor;
+module.exports = User;

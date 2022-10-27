@@ -1,13 +1,19 @@
 const { validationResult } = require("express-validator");
-const ScientificDegree = require("../../models/scientificDegree");
-const Specialty = require("../../models/specialty");
+const ScientificDegree = require("../../models/scientificDegree.model");
+const Specialty = require("../../models/specialty.model");
 const { getDoctorById, getDoctorByEmail, getDoctorByPhone, updateDoctor } = require("../../repositories/doctor.repository");
 const { getScientificDegreeById } = require("../../repositories/scientificDegree.repository");
 const { getSpecialtyById } = require("../../repositories/specialty.repository");
+const roles = require("../../statics/roles");
 const { useValidationError, useError } = require("../../utils/useError");
 
 module.exports = async (req, res, next) => {
   try {
+    if (req.body.tokenUserRole === roles.user) {
+      if (req.body.tokenUserId !== req.body.id) {
+        throw useError('Not authorized ', 403);
+      }
+    }
     const doctorId = req.params.id;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

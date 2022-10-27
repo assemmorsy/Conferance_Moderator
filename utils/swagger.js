@@ -1,6 +1,7 @@
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
+const dotenv = require('dotenv').config();
 
 const PATH = path.normalize(path.dirname(require.main.filename) + '\\docs\\v1\\**\\*.yaml');
 module.exports = (app, root) => {
@@ -14,7 +15,7 @@ module.exports = (app, root) => {
       },
       servers: [
         {
-          url: "http://localhost:8080",
+          url: `http://localhost:${process.env.DEV_PORT || 8080}`,
           description: "Local server",
         },
       ],

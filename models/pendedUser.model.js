@@ -1,24 +1,18 @@
 const { Model, DataTypes } = require("sequelize");
 const bcrypt = require('bcrypt');
 const db = require('../utils/db');
-const ScientificDegree = require("./scientificDegree");
-const Specialty = require("./specialty");
+const ScientificDegree = require("./scientificDegree.model");
+const Specialty = require("./specialty.model");
 
-class Doctor extends Model {
-  static associate(models) {
-    Doctor.belongsTo(models.specialty, {
-      foreignKey: 'specialtyId'
-    });
-    Doctor.belongsTo(models.scientificDegree, {
-      foreignKey: 'scientificDegreeId'
-    });
+class PendedUser extends Model {
+	static associate(models) {
   }
 }
 
 const options = {
   sequelize: db.sequelize,
   timestamps: true, createdAt: false, updatedAt: true,
-  modelName: 'doctors'
+  modelName: 'pendedUsers'
 }
 
 const attributes = {
@@ -115,20 +109,12 @@ const attributes = {
   },
   scientificDegreeId: {
     type: DataTypes.INTEGER,
-    references: {
-      model: ScientificDegree,
-      key: 'id'
-    }
   },
   specialtyId: {
     type: DataTypes.INTEGER,
-    references: {
-      model: Specialty,
-      key: 'id'
-    }
   }
 }
 
-Doctor.init(attributes, options);
+PendedUser.init(attributes, options);
 
-module.exports = Doctor;
+module.exports = PendedUser;

@@ -1,5 +1,5 @@
 const path = require('path');
-const Specialty = require('../../models/specialty');
+const Specialty = require('../../models/specialty.model');
 const { getDoctorById, updateDoctorProfileImage } = require("../../repositories/doctor.repository");
 const storages = require('../../utils/multerStorage');
 const { useError } = require('../../utils/useError');

@@ -19,7 +19,7 @@ const app = express();
 postgresConnector()
   .then((isConnected) => {
     if (isConnected) {
-      app.listen(process.env.DEV_PORT | 8080, () => {
+      app.listen(process.env.DEV_PORT || 8080, () => {
         console.log('Listening on port ' + process.env.DEV_PORT);
       });
     }

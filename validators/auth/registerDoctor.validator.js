@@ -1,14 +1,8 @@
-const { body, oneOf, check } = require('express-validator');
+const { body } = require('express-validator');
 
 module.exports = [
-  body("firstName").isAlpha().isLength({ min: 2 }),
-  body("lastName").isAlpha().isLength({ min: 2 }),
-	body('email').isEmail(),
-  body("password").exists({ checkNull: true }).withMessage('Password must be filled'),
-	body('phone').isMobilePhone().isLength({min: 2}),
-	body('specialty').isInt(),
-	body('scientificDegree').isInt(),
-	body('placeOfWork').isString(),
-	body('jobTitle').isString(),
-	body('university').isString(),
+  body("name").isAlpha().isLength({ min: 2 }).withMessage('Please, provide a full name'),
+  body('email').isEmail().withMessage('Invalid email address'),
+  body("password").isStrongPassword().withMessage('Password must be strong'),
+  body('phone').isMobilePhone().withMessage('Invalid email address'),
 ]

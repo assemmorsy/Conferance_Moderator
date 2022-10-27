@@ -1,25 +1,25 @@
-const PendedDoctor = require("../models/pendedDoctor")
+const PendedDoctor = require("../models/pendedUser.model")
 
 exports.addNewPendedDoctor = async (doctor) => {
-	return await PendedDoctor.create(doctor);
+  return await PendedDoctor.create(doctor);
 }
 
 exports.getPendedDoctorById = async (id) => {
-	return await PendedDoctor.findByPk(id);
+  return await PendedDoctor.findByPk(id);
 }
 
-exports.deletePendedDoctor = async(doctor) => {
-	return await doctor.destroy();
+exports.deletePendedDoctor = async (doctor) => {
+  return await doctor.destroy();
 }
 
 exports.truncatePendedDoctorTable = async () => {
-	await PendedDoctor.truncate();
+  await PendedDoctor.truncate();
 }
 
 exports.getPendedDoctorByEmail = async (email) => {
-	return await PendedDoctor.findOne({
-		where: {
-			email: email
-		}
-	});
+  return await PendedDoctor.findOne({
+    where: {
+      email: email
+    }
+  });
 }
