@@ -1,7 +1,7 @@
 const transport = require("../config/nodemailer.config");
 
 module.exports.sendConfirmationEmail = async (email, confirmationCode) => {
-	const frontUri = 'http://localhost:8080/auth/confirm';
+  const frontUri = 'http://localhost:8080/email-confirm';
   await transport.sendMail({
     from: process.env.SENDER_EMAIL,
     to: email,
