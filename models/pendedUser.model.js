@@ -81,7 +81,6 @@ const attributes = {
   },
   nationality: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   scientificDegreeId: {
     type: DataTypes.INTEGER,

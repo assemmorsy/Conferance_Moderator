@@ -1,4 +1,4 @@
-const drRouter = require('../routers/doctor.router');
+const drRouter = require('../routers/user.router');
 const authRouter = require('../routers/auth.router');
 
 

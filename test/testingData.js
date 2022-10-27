@@ -7,6 +7,7 @@ exports.records = [{
   university: "Everywhere",
   phone: "01211325591",
   placeOfWork: "Hospital",
+  nationality: "eggggg",
   specialty: 1,
   scientificDegree: 1
 }, {
@@ -17,6 +18,7 @@ exports.records = [{
   university: "Everywhere",
   phone: "01222222222",
   placeOfWork: "Hospital",
+  nationality: "eggggg",
   specialty: 1,
   scientificDegree: 1
 }, {
@@ -27,6 +29,7 @@ exports.records = [{
   university: "Everywhere",
   phone: "06548915748",
   placeOfWork: "Hospital",
+  nationality: "eggggg",
   specialty: 1,
   scientificDegree: 1
 }];

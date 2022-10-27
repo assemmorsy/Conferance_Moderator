@@ -1,13 +1,10 @@
 const { useError } = require("../../utils/useError");
 const jwt = require('jsonwebtoken');
-const { getPendedDoctorById, deletePendedDoctor } = require("../../repositories/pendedDoctor.repository");
-const { getDoctorById, addDoctor, updateDoctor } = require("../../repositories/doctor.repository");
-const { getSpecialtyById } = require("../../repositories/specialty.repository");
-const { getScientificDegreeById } = require("../../repositories/scientificDegree.repository");
-const { addNewDoctor } = require("../doctor");
+const { getDoctorById, addDoctor, updateDoctor, getUserById, updateUser, addUser } = require("../../repositories/user.repository");
 const Specialty = require("../../models/specialty.model");
 const ScientificDegree = require("../../models/scientificDegree.model");
 const { generateJwtForLoggedInUser } = require("../../utils/jwtGenerator");
+const { getPendedUserById, deletePendedUser } = require("../../repositories/pendedUser.repository");
 
 module.exports = async (req, res, next) => {
   let decodedToken, finalResult;
@@ -17,29 +14,27 @@ module.exports = async (req, res, next) => {
     } catch (err) {
       throw useError('Not authenticated', 401);
     }
-    const pendedDoctor = await getPendedDoctorById(decodedToken.id);
-    const exDoctor = await getDoctorById(decodedToken.id);
-    const spec = await getSpecialtyById(pendedDoctor.specialtyId);
-    const sciDeg = await getScientificDegreeById(pendedDoctor.scientificDegreeId);
-    if (exDoctor) {
-      const updatedDoctor = await updateDoctor(exDoctor, pendedDoctor.dataValues);
-      await updatedDoctor.setSpecialty(spec);
-      await updatedDoctor.setScientificDegree(sciDeg);
-      await updatedDoctor.reload({
+    const pendedUser = await getPendedUserById(decodedToken.id);
+    if (!pendedUser) {
+      throw useError("The user you try to confirm dosen't exists", 404);
+    }
+    console.log(decodedToken.id)
+    const exUser = await getUserById(decodedToken.id);
+    if (exUser) {
+      const updatedUser = await updateUser(exUser, pendedUser.dataValues);
+      await updatedUser.reload({
         attributes: { exclude: ['password'] }, include: [Specialty, ScientificDegree]
       });
-      finalResult = updatedDoctor;
+      finalResult = updatedUser;
     } else {
-      const newDoctor = await addDoctor(pendedDoctor.dataValues);
-      await newDoctor.setSpecialty(spec);
-      await newDoctor.setScientificDegree(sciDeg);
-      await newDoctor.reload({
+      const newUser = await addUser(pendedUser.dataValues);
+      await newUser.reload({
         attributes: { exclude: ['password'] },
         include: [Specialty, ScientificDegree]
       });
-      finalResult = newDoctor;
+      finalResult = newUser;
     }
-    const deletedPenDr = await deletePendedDoctor(pendedDoctor);
+    const deletedPenUser = await deletePendedUser(pendedUser);
     const token = generateJwtForLoggedInUser({ id: finalResult.id, role: 'user' });
     return res.status(200).json({ message: 'Registerd successfuly', data: finalResult, token: token });
   } catch (error) {

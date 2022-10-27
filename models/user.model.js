@@ -68,12 +68,6 @@ const attributes = {
   },
   password: {
     type: DataTypes.STRING,
-    set(value) {
-      if (value) {
-        hashedValue = bcrypt.hashSync(value, 10);
-        this.setDataValue('password', hashedValue);
-      }
-    }
   },
 
   imagePath: {
@@ -94,7 +88,6 @@ const attributes = {
   },
   nationality: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   scientificDegreeId: {
     type: DataTypes.INTEGER,

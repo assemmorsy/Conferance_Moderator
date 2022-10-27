@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const ScientificDegree = require("../../models/scientificDegree.model");
 const Specialty = require("../../models/specialty.model");
-const { getDoctorById, getDoctorByEmail, getDoctorByPhone, updateDoctor } = require("../../repositories/doctor.repository");
+const { getDoctorById, getDoctorByEmail, getDoctorByPhone, updateDoctor } = require("../../repositories/user.repository");
 const { getScientificDegreeById } = require("../../repositories/scientificDegree.repository");
 const { getSpecialtyById } = require("../../repositories/specialty.repository");
 const roles = require("../../statics/roles");
