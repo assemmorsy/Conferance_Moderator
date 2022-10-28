@@ -9,7 +9,7 @@ module.exports.sendConfirmationEmail = async (email, confirmationCode) => {
     html: `<h1>Email Confirmation</h1>
         <h2>Hello ${email}</h2>
         <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-        <a href=${frontUri}/${confirmationCode}> Click here</a>
+        <a href=${frontUri}/${confirmationCode} target="_blank"> Click here</a>
         </div>`,
   }).catch(err => console.log(err));
 };

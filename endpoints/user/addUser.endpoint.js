@@ -9,16 +9,16 @@ const { useValidationError, useError } = require('../../utils/useError');
 module.exports = async (req, res, next) => {
   try {
     const errors = validationResult(req);
-    const userData = req.body;
-    const UserSpecialty = req.body.specialty;
-    const userSciDeg = req.body.scientificDegree;
-
-    delete userData.specialty;
-    delete userData.scientificDegree;
-
     if (!errors.isEmpty()) {
       throw useValidationError(errors);
     }
+
+    const userData = req.body;
+    // const UserSpecialty = req.body.specialty;
+    // const userSciDeg = req.body.scientificDegree;
+    // delete userData.specialty;
+    // delete userData.scientificDegree;
+
     if (await getUserByEmail(userData.email)) {
       throw useError('Email already in use', 400);
     }
@@ -27,25 +27,24 @@ module.exports = async (req, res, next) => {
       throw useError('Phone number already in use', 400);
     }
 
-    const specialty = await getSpecialtyById(UserSpecialty);
-    if (!specialty) {
-      throw useError("Specialty not found", 400);
-    }
+    // const specialty = await getSpecialtyById(UserSpecialty);
+    // if (!specialty) {
+    //   throw useError("Specialty not found", 400);
+    // }
 
-    const scientificDegree = await getScientificDegreeById(userSciDeg);
-    if (!scientificDegree) {
-      throw useError("Scientific degree not found", 400);
-    }
+    // const scientificDegree = await getScientificDegreeById(userSciDeg);
+    // if (!scientificDegree) {
+    //   throw useError("Scientific degree not found", 400);
+    // }
 
     const user = await addUser(userData);
-    await user.setSpecialty(specialty);
-    await user.setScientificDegree(scientificDegree);
+    // await user.setSpecialty(specialty);
+    // await user.setScientificDegree(scientificDegree);
     await user.reload({
       attributes: { exclude: ['password'] },
       include: [Specialty, ScientificDegree]
     });
-
-    return res.status(201).json({ message: 'Resource added successfuly', data: doctor })
+    return res.status(201).json({ message: 'Resource added successfuly', data: user })
   } catch (err) {
     next(err);
   }

@@ -14,39 +14,39 @@ module.exports = async (req, res, next) => {
         throw useError('Not authorized ', 403);
       }
     }
-    const doctorId = req.params.id;
+    const userId = req.params.id;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       throw useValidationError(errors);
     }
-    const doctorData = req.body;
-    const exDoctor = await getDoctorById(doctorId);
-    if (!exDoctor) {
+    const userData = req.body;
+    const exUser = await getDoctorById(userId);
+    if (!exUser) {
       throw useError('Resource not found', 404);
     }
 
-    const doctorWithEmail = await getDoctorByEmail(doctorData.email);
-    if (doctorWithEmail && doctorWithEmail.id != doctorId) {
+    const userWithEmail = await getDoctorByEmail(userData.email);
+    if (userWithEmail && userWithEmail.id != userId) {
       throw useError('Email already in use', 400);
     }
 
-    const doctorWithPhone = await getDoctorByPhone(doctorData.phone);
-    if (doctorWithPhone && doctorWithPhone.id != doctorId) {
+    const userWithPhone = await getDoctorByPhone(userData.phone);
+    if (userWithPhone && userWithPhone.id != userId) {
       throw useError('Phone number already in use', 400);
     }
 
-    const spec = await getSpecialtyById(doctorData.specialty);
+    const spec = await getSpecialtyById(userData.specialty);
     if (!spec) {
       throw useError('Specialty not found', 400);
     }
 
-    const sciDeg = await getScientificDegreeById(doctorData.scientificDegree);
+    const sciDeg = await getScientificDegreeById(userData.scientificDegree);
     if (!sciDeg) {
       throw useError('Scientific degree not found', 400);
     }
-    delete doctorData.specialty;
-    delete doctorData.scientificDegree;
-    const updatedDoctor = await updateDoctor(exDoctor, doctorData);
+    delete userData.specialty;
+    delete userData.scientificDegree;
+    const updatedDoctor = await updateDoctor(exUser, userData);
     await updatedDoctor.setSpecialty(spec);
     await updatedDoctor.setScientificDegree(sciDeg);
     await updatedDoctor.reload({

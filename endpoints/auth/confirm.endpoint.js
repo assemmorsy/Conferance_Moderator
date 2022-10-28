@@ -36,7 +36,7 @@ module.exports = async (req, res, next) => {
     }
     const deletedPenUser = await deletePendedUser(pendedUser);
     const token = generateJwtForLoggedInUser({ id: finalResult.id, role: 'user' });
-    return res.status(200).json({ message: 'Registerd successfuly', data: finalResult, token: token });
+    return res.status(200).json({ message: 'Registerd successfuly'});
   } catch (error) {
     next(error);
   }

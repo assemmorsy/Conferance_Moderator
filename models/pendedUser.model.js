@@ -28,17 +28,6 @@ const attributes = {
       this.setDataValue('fullName', value.charAt(0).toUpperCase() + value.slice(1).toLowerCase());
     }
   },
-  isRegistered: {
-    type: DataTypes.VIRTUAL,
-    get() {
-      return this.password !== null
-    }, set(value) {
-      throw new Error("don't try to set 'registered' value")
-    }
-  },
-  jobTitle: {
-    type: DataTypes.TEXT
-  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -65,32 +54,6 @@ const attributes = {
       }
     }
   },
-  imagePath: {
-    type: DataTypes.STRING,
-  },
-
-  placeOfWork: {
-    type: DataTypes.STRING,
-  },
-  isDead: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false
-  },
-  biography: {
-    type: DataTypes.STRING
-  },
-  nationality: {
-    type: DataTypes.STRING,
-  },
-  scientificDegreeId: {
-    type: DataTypes.INTEGER,
-  },
-  specialtyId: {
-    type: DataTypes.INTEGER,
-  },
-  universityId: {
-    type: DataTypes.INTEGER,
-  }
 }
 
 PendedUser.init(attributes, options);

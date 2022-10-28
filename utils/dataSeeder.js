@@ -6,7 +6,7 @@ const { isScientificDegreeTableHasRecords } = require("../repositories/scientifi
 
 module.exports = async () => {
   if (! await isSpecialtyTableHasRecords()) {
-    console.log('-----> Seeding specialty data');
+    console.log('Seeding specialty data');
     await Specialty.bulkCreate([
       { name: "Allergy and immunology" },
       { name: "Anesthesiology" },
@@ -32,7 +32,7 @@ module.exports = async () => {
   }
 
   if (! await isScientificDegreeTableHasRecords()) {
-    console.log('-----> Seeding scientific degrees data');
+    console.log('Seeding scientific degrees data');
     await ScientificDegree.bulkCreate([
       { name: "Professor" },
       { name: "Assistant professor" },

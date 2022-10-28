@@ -41,12 +41,12 @@ exports.getUserByPhone = async (phone) => {
   });
 }
 
-exports.addManyUsers = async (doctors) => {
-  return await User.bulkCreate(doctors);
+exports.addManyUsers = async (users) => {
+  return await User.bulkCreate(users);
 }
 
-exports.truncateDoctorTable = async () => {
-  await User.truncate();
+exports.truncateUserTable = async () => {
+  await User.truncate({ cascade: true });
 }
 
 exports.updateUserProfileImage = async (user, imgPath) => {

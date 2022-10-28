@@ -15,9 +15,9 @@ let doctorsProfilesStorage = multer.diskStorage({
     const fileData = file.originalname.split(".");
 
     if (process.env.NODE_ENV == 'dev') {
-    // fileName = Number(new Date()).toString() + '.' + fileData[1];
-    const hash = new Date().toUTCString().replace(/:/g, "-")
-    fileName = `(${hash})-(${fileData[0]}).${fileData[1]}`;
+      // fileName = Number(new Date()).toString() + '.' + fileData[1];
+      const hash = new Date().toUTCString().replace(/:/g, "-")
+      fileName = `(${hash})-(${fileData[0]}).${fileData[1]}`;
     } else if (process.env.NODE_ENV == 'test') {
       fileName = 'test-sample' + '.' + fileData[1];
     }

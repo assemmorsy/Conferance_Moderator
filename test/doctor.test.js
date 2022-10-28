@@ -4,16 +4,14 @@ const sinon = require('sinon');
 const appRoot = require('app-root-path');
 const fs = require('fs');
 
-const { truncateDoctorTable, addManyDoctors } = require("../repositories/doctor.repository");
-
-
-const Doctor = require('../models/user.model');
+const { truncateDoctorTable, addManyDoctors } = require("../repositories/user.repository");
 const app = require('../app');
 const should = chai.should();
 const randomEmailGenerator = require('random-email');
 const uuidGenerator = require('uuid');
 const { records } = require('./testingData');
 const { generateJwtForLoggedInUser } = require('../utils/jwtGenerator');
+const roles = require('../statics/roles');
 
 chai.use(chaiHttp);
 
@@ -22,11 +20,10 @@ const DUP_DOCTOR = records[1];
 
 const JWT_TOKEN = generateJwtForLoggedInUser({
   id: doctor.id,
-  role: 'user'
+  role: roles.user
 });
 
-describe('Doctors', () => {
-
+describe('Users', () => {
   after(() => {
     const imagesPath = appRoot + '/images/doctors-profiles';
     try {
@@ -49,7 +46,7 @@ describe('Doctors', () => {
     it('It should return all doctors', async () => {
       const res = await chai
         .request(app)
-        .get('/dr')
+        .get('/user')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (
         res.should.have.status(200) &&
@@ -65,7 +62,7 @@ describe('Doctors', () => {
     it('It should return by id doctor', async () => {
       const res = await chai
         .request(app)
-        .get('/dr/' + doctor.id)
+        .get('/user/' + doctor.id)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (
         res.should.have.status(200)
@@ -77,7 +74,7 @@ describe('Doctors', () => {
     it('It should return not found resource', async () => {
       const res = await chai
         .request(app)
-        .get('/dr/' + uuidGenerator.v4())
+        .get('/user/' + uuidGenerator.v4())
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (
         res.should.have.status(404) &&
@@ -89,15 +86,15 @@ describe('Doctors', () => {
   /**
    * POST/:id
    */
-  describe('/POST doctor', () => {
-    it('It should add new doctor successfuly', async () => {
+  describe('/POST user', () => {
+    it('It should add new user successfuly', async () => {
       let newDr = JSON.parse(JSON.stringify(doctor));
       delete newDr.id;
       newDr.email = randomEmailGenerator();
       newDr.phone = Math.random().toString().slice(2, 13);
       const res = await chai
         .request(app)
-        .post('/dr')
+        .post('/user')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(newDr);
       return (
@@ -116,7 +113,7 @@ describe('Doctors', () => {
       newDr.phone = Math.random().toString().slice(2, 13);
       const res = await chai
         .request(app)
-        .post('/dr')
+        .post('/user')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(newDr);
       return (
@@ -131,7 +128,7 @@ describe('Doctors', () => {
     it('It should return email already in use', async () => {
       const res = await chai
         .request(app)
-        .post('/dr')
+        .post('/user')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(doctor);
       return (
@@ -150,7 +147,7 @@ describe('Doctors', () => {
       newDr.email = randomEmailGenerator();
       const res = await chai
         .request(app)
-        .post('/dr')
+        .post('/user')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(newDr);
       return (
@@ -172,7 +169,7 @@ describe('Doctors', () => {
       newDr.firstName = 'updated';
       const res = await chai
         .request(app)
-        .put('/dr/' + doctor.id)
+        .put('/user/' + doctor.id)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(newDr);
       return (
@@ -191,7 +188,7 @@ describe('Doctors', () => {
       newDr.phone = Math.random().toString().slice(2, 13);
       const res = await chai
         .request(app)
-        .put('/dr/' + doctor.id)
+        .put('/user/' + doctor.id)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(newDr);
       return (
@@ -208,7 +205,7 @@ describe('Doctors', () => {
       newDr.email = DUP_DOCTOR.email;
       const res = await chai
         .request(app)
-        .put('/dr/' + doctor.id)
+        .put('/user/' + doctor.id)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(newDr);
       return (
@@ -228,7 +225,7 @@ describe('Doctors', () => {
       newDr.phone = DUP_DOCTOR.phone;
       const res = await chai
         .request(app)
-        .put('/dr/' + newDr.id)
+        .put('/user/' + newDr.id)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(newDr);
       return (
@@ -244,7 +241,7 @@ describe('Doctors', () => {
     it('it should return not found docotr', async () => {
       const res = await chai
         .request(app)
-        .put('/dr/' + uuidGenerator.v4())
+        .put('/user/' + uuidGenerator.v4())
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
         .send(doctor);
       return (
@@ -260,7 +257,7 @@ describe('Doctors', () => {
     it('It should delete a doctor by id successfuly', async () => {
       const res = await chai
         .request(app)
-        .delete('/dr/' + doctor.id)
+        .delete('/user/' + doctor.id)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (
         res.should.have.status(200) &&
@@ -274,7 +271,7 @@ describe('Doctors', () => {
     it('it should return not found docotr', async () => {
       const res = await chai
         .request(app)
-        .delete('/dr/' + uuidGenerator.v4())
+        .delete('/user/' + uuidGenerator.v4())
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (
         res.should.have.status(404)
@@ -285,11 +282,11 @@ describe('Doctors', () => {
   /**
    * /PUT/ dr/:id/profile-img
    */
-  describe('/dr/:id/profile-img', () => {
+  describe('/user/:id/profile-img', () => {
     it('It should update doctor profile image successfuly', async () => {
       const res = await chai
         .request(app)
-        .put('/dr/' + DUP_DOCTOR.id + '/profile-img')
+        .put('/user/' + DUP_DOCTOR.id + '/profile-img')
         .attach('userImg', __dirname + '/sample-image.jpg')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (
@@ -299,11 +296,11 @@ describe('Doctors', () => {
   });
 
   // Submit non image format
-  describe('/dr/:id/profile-img', () => {
+  describe('/user/:id/profile-img', () => {
     it("It shouldn't accept non image format", async () => {
       const res = await chai
         .request(app)
-        .put('/dr/' + DUP_DOCTOR.id + '/profile-img')
+        .put('/user/' + DUP_DOCTOR.id + '/profile-img')
         .attach('userImg', __dirname + '/textFile.txt')
         .set({ Authorization: `Bearer ${JWT_TOKEN}` });
       return (

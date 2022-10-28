@@ -16,7 +16,9 @@ class User extends Model {
       foreignKey: 'scientificDegreeId'
     });
 
-
+    User.belongsTo(models.university, {
+      foreignKey: 'universityId'
+    });
   }
 }
 
@@ -37,14 +39,6 @@ const attributes = {
     allowNull: false,
     set(value) {
       this.setDataValue('fullName', value.charAt(0).toUpperCase() + value.slice(1).toLowerCase());
-    }
-  },
-  isRegistered: {
-    type: DataTypes.VIRTUAL,
-    get() {
-      return this.password !== null
-    }, set(value) {
-      throw new Error("don't try to set 'registered' value")
     }
   },
   jobTitle: {

@@ -16,14 +16,15 @@ const app = express();
  * Infrastructure
  */
 
-postgresConnector()
-  .then((isConnected) => {
-    if (isConnected) {
-      app.listen(process.env.DEV_PORT || 8080, () => {
-        console.log('Listening on port ' + process.env.DEV_PORT);
-      });
-    }
-  });
+(async () => {
+  if (await postgresConnector()) {
+    app.listen(process.env.DEV_PORT || 8080, () => {
+      console.log('Listening on port ' + process.env.DEV_PORT);
+    });
+  } else {
+    console.log('Failed to connect to database');
+  }
+})();
 
 /**
  * Services

@@ -1,9 +1,9 @@
-const drRepo = require('../../repositories/user.repository');
+const { getAllUsers } = require("../../repositories/user.repository");
 
 module.exports = async (req, res, next) => {
   try {
-    const doctors = await drRepo.getAllDoctors();
-    return res.status(200).json({ message: "All doctors data", data: doctors });
+    const users = await getAllUsers();
+    return res.status(200).json({ message: "All doctors data", data: users });
   } catch (err) {
     next(err);
   }

@@ -3,7 +3,7 @@ exports.records = [{
   fullName: "First Last",
   jobTitle: "Doctor",
   email: "mail@mail.com",
-  password: "123",
+  password: "mohJHD279$^",
   university: "Everywhere",
   phone: "01211325591",
   placeOfWork: "Hospital",
@@ -13,6 +13,7 @@ exports.records = [{
 }, {
   id: 'b4a787cf-abbe-46e9-979f-fc9c5b1dade6',
   fullName: "First Last",
+  password: "mohJHD279$^",
   jobTitle: "Doctor",
   email: "dupmail@mail.com",
   university: "Everywhere",
@@ -24,8 +25,8 @@ exports.records = [{
 }, {
   fullName: "First Last",
   jobTitle: "Doctor",
-  email: "auth@mail.com",
-  password: "123",
+  email: "dupmaildupmail@mail.com",
+  password: "mohJHD279$^",
   university: "Everywhere",
   phone: "06548915748",
   placeOfWork: "Hospital",

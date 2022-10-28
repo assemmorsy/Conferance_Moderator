@@ -4,5 +4,5 @@ module.exports = {
   deleteUserById: require('./deleteUserById'),
   addUser: require('./addUser.endpoint'),
   updateUser: require('./updateUser.endpoint'),
-  updateUserImage: require('./updateUserImage.endpoint')
+  updateUserProfileImage: require('./updateUserImage.endpoint')
 }
