@@ -8,6 +8,7 @@ exports.userRoutes = {
 	put: `${USER_ROOT}/:id`, 
 	delete: `${USER_ROOT}/:id`, 
 	putProfileImage: `${USER_ROOT}/:id/profile-img`, 
+	markAsDead: `${USER_ROOT}/mark-as-dead/:id`, 
 }
 
 exports.authRoutes = {

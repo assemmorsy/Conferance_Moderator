@@ -9,7 +9,7 @@ module.exports = async () => {
     await associate();
     await db.sequelize.authenticate();
     if ([DEV, TEST].includes(process.env.NODE_ENV)) {
-      await db.sequelize.sync({ force: true });
+      await db.sequelize.sync({ alert: true });
     }
     await dataSeeder();
     return true;

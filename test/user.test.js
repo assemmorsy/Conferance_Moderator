@@ -12,14 +12,16 @@ const uuidGenerator = require('uuid');
 const { records } = require('./testingData');
 const { generateJwtForLoggedInUser } = require('../utils/jwtGenerator');
 const roles = require('../statics/roles');
+const { userRoutes } = require('../statics/routes');
+const getRouteWithoutParams = require('../helpers/getRouteWithoutParams');
 
 chai.use(chaiHttp);
 
-const doctor = records[0];
+const USER = records[0];
 const DUP_DOCTOR = records[1];
 
 const JWT_TOKEN = generateJwtForLoggedInUser({
-  id: doctor.id,
+  id: uuidGenerator.v4(),
   role: roles.user
 });
 
@@ -42,12 +44,11 @@ describe('Users', () => {
   /**
    * GET
    */
-  describe('/GET doctor', () => {
-    it('It should return all doctors', async () => {
+  describe('/GET user', () => {
+    it('It should return all users', async () => {
       const res = await chai
         .request(app)
-        .get('/user')
-        .set({ Authorization: `Bearer ${JWT_TOKEN}` });
+        .get(userRoutes.getAll);
       return (
         res.should.have.status(200) &&
         res.body.data.should.be.a('array')
@@ -58,24 +59,22 @@ describe('Users', () => {
   /**
    * GET/:id
    */
-  describe('/GET/:id doctor', () => {
-    it('It should return by id doctor', async () => {
+  describe('/GET/:id user', () => {
+    it('It should user return by id', async () => {
       const res = await chai
         .request(app)
-        .get('/user/' + doctor.id)
-        .set({ Authorization: `Bearer ${JWT_TOKEN}` });
+        .get(getRouteWithoutParams(userRoutes.getById) + '/' + USER.id);
       return (
         res.should.have.status(200)
       );
     });
   });
 
-  describe('/GET/:id doctor', () => {
+  describe('/GET/:id user', () => {
     it('It should return not found resource', async () => {
       const res = await chai
         .request(app)
-        .get('/user/' + uuidGenerator.v4())
-        .set({ Authorization: `Bearer ${JWT_TOKEN}` });
+        .get(getRouteWithoutParams(userRoutes.getById) + '/' + uuidGenerator.v4());
       return (
         res.should.have.status(404) &&
         res.body.should.have.property('errors')
@@ -86,51 +85,56 @@ describe('Users', () => {
   /**
    * POST/:id
    */
+
+  let postUser = {
+		id: uuidGenerator.v4(),
+    fullName: "Mohab Alnajjar",
+    email: randomEmailGenerator(),
+    password: "mOhasbD123*&^",
+    phone: Math.random().toString().slice(2, 13)
+  };
+
   describe('/POST user', () => {
     it('It should add new user successfuly', async () => {
-      let newDr = JSON.parse(JSON.stringify(doctor));
-      delete newDr.id;
-      newDr.email = randomEmailGenerator();
-      newDr.phone = Math.random().toString().slice(2, 13);
       const res = await chai
         .request(app)
-        .post('/user')
+        .post(userRoutes.post)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
-        .send(newDr);
+        .send(postUser);
       return (
         res.should.have.status(201)
       );
     });
   });
 
-  // Invalid input data
-  describe('/POST doctor', () => {
-    it('It should return invalid input data response', async () => {
-      let newDr = JSON.parse(JSON.stringify(doctor));
-      delete newDr.id;
-      newDr.firstName = '123name';
-      newDr.email = randomEmailGenerator();
-      newDr.phone = Math.random().toString().slice(2, 13);
-      const res = await chai
-        .request(app)
-        .post('/user')
-        .set({ Authorization: `Bearer ${JWT_TOKEN}` })
-        .send(newDr);
-      return (
-        res.should.have.status(400) &&
-        res.body.should.have.property('errors')
-      );
-    });
-  });
+  // // Invalid input data
+  // describe('/POST user', () => {
+  //   it('It should return invalid input data response', async () => {
+  //     let newDr = JSON.parse(JSON.stringify(doctor));
+  //     delete newDr.id;
+  //     newDr.firstName = '123name';
+  //     newDr.email = randomEmailGenerator();
+  //     newDr.phone = Math.random().toString().slice(2, 13);
+  //     const res = await chai
+  //       .request(app)
+  //       .post('/user')
+  //       .set({ Authorization: `Bearer ${JWT_TOKEN}` })
+  //       .send(newDr);
+  //     return (
+  //       res.should.have.status(400) &&
+  //       res.body.should.have.property('errors')
+  //     );
+  //   });
+  // });
 
   // Email already exists
-  describe('/POST doctor', () => {
+  describe('/POST user', () => {
     it('It should return email already in use', async () => {
       const res = await chai
         .request(app)
-        .post('/user')
+        .post(userRoutes.post)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
-        .send(doctor);
+        .send(postUser);
       return (
         res.should.have.status(400) &&
         res.body.should.have.property('errors') &&
@@ -139,21 +143,17 @@ describe('Users', () => {
     });
   });
 
-
   // Phone number already exists
-  describe('/POST doctor', () => {
+  describe('/POST user', () => {
     it('It should return phone number already in use', async () => {
-      let newDr = JSON.parse(JSON.stringify(doctor));
-      newDr.email = randomEmailGenerator();
       const res = await chai
         .request(app)
-        .post('/user')
+        .post(userRoutes.post)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
-        .send(newDr);
+        .send(postUser);
       return (
         res.should.have.status(400) &&
-        res.body.should.have.property('errors') &&
-        res.body.should.have.property('errors').eql('Phone number already in use')
+        res.body.should.have.property('errors')
       );
     });
   });
@@ -162,19 +162,28 @@ describe('Users', () => {
    * PUT/:id
    */
 
+	const putUser = {
+		...postUser,
+		palceOfWork: 'asdsdad',
+		biography: 'sfdnsl',
+		nationality: 'adssad',
+		placeOfWork: 'sadasd',
+		university: 1,
+		specialty: 1,
+		scientificDegree: 1
+	}
   // OK
-  describe('/PUT doctor', () => {
-    it('It should update doctor successfuly', async () => {
-      let newDr = JSON.parse(JSON.stringify(doctor));
-      newDr.firstName = 'updated';
+  describe('/PUT user', () => {
+    it('It should update user successfuly', async () => {
+			let userToPut = putUser;
+			userToPut.fullName = 'fdsfdslfjdsaijfh';
       const res = await chai
         .request(app)
-        .put('/user/' + doctor.id)
+        .put(getRouteWithoutParams(userRoutes.put) + '/' + userToPut.id)
         .set({ Authorization: `Bearer ${JWT_TOKEN}` })
-        .send(newDr);
+        .send(userToPut);
       return (
-        res.should.have.status(200) &&
-        res.body.should.have.property('message').eql('Resource updated successfuly')
+        res.should.have.status(200)
       );
     });
   });

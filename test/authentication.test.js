@@ -6,7 +6,7 @@ const { records } = require('./testingData');
 const randomEmailGenerator = require('random-email');
 const uuidGenerator = require('uuid');
 const { generateJwtForEmailConfirmation, generateJwtForLoggedInUser } = require('../utils/jwtGenerator');
-const {authRoutes} = require('../statics/routes');
+const { authRoutes } = require('../statics/routes');
 const getRouteWithoutParams = require('../helpers/getRouteWithoutParams');
 
 chai.use(chaiHttp);
@@ -15,7 +15,7 @@ const USER_OBJECT = {
   id: uuidGenerator.v4(),
   fullName: "First Last",
   email: "auth@mail.com",
-  password: "moHAB876!@#$dsfHJG",
+  password: "Zq#s83$KBvtIAj%V",
   phone: "07256548451"
 };
 

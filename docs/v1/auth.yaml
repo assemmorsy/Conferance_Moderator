@@ -2,19 +2,19 @@ tags:
   - name: Authentication
     description: Authentication endpoints
 paths:
-  /auth/login-dr:
+  /auth/login-user:
     post:
       tags:
         - Authentication
-      summary: Login as doctor
+      summary: Login as user
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                email: mail@mail.com
-                password: "123"
+                email: lodehej885@abudat.com
+                password: stRonGpa$$Word
       security:
         - bearerAuth: []
       responses:
@@ -35,7 +35,9 @@ paths:
               schema:
                 type: object
               example:
-                errors: {}
+                errors: >-
+                  Invalid email address at field email / Password is required at
+                  field password /
         "401":
           description: Unauthorized
           content:
@@ -44,7 +46,7 @@ paths:
                 type: object
               example:
                 errors: Email or password incorrect
-  /auth/register-dr:
+  /auth/register-user:
     post:
       tags:
         - Authentication
@@ -55,16 +57,10 @@ paths:
             schema:
               type: object
               example:
-                firstName: Mohab
-                lastName: Alnajjar
-                jobTitle: Belya
-                email: woyac29008@pahed.com
-                password: "123"
-                university: Tanta
-                phone: "01265486248"
-                placeOfWork: Hospital
-                specialty: 1
-                scientificDegree: 1
+                fullName: Mohab Alnajjar
+                email: lodehej885@abudat.com
+                password: mOhasbD123*&^
+                phone: "01865486248"
       responses:
         "200":
           description: OK
@@ -86,18 +82,56 @@ paths:
                   value:
                     message: Email already in use
                 example-1:
-                  summary: Specialty bot found
-                  value:
-                    message: Specialty bot found
-                example-2:
-                  summary: Scientific degree not found
-                  value:
-                    message: Scientific degree not found
-                example-3:
-                  summary: Invalid input data
-                  value:
-                    errors: {}
-                example-4:
                   summary: Duplicted phone
                   value:
                     message: Phone number already in use
+                example-2:
+                  summary: Need confirmation
+                  value:
+                    message: User already registerd and need email confirmation
+                example-3:
+                  summary: Invalid input data
+                  value:
+                    errors: >-
+                      Invalid email address at field email / Password is
+                      required at field password /
+  /auth/confirm/{token}:
+    get:
+      tags:
+        - Authentication
+      summary: Email confirmation
+      parameters:
+        - in: path
+          name: token
+          schema:
+            type: string
+          required: true
+          description: email confirmation tokrn
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjZTk3ZmIzLTYyNzQtNDBlNS04ZmI0LTRlZThkZmJhMzg1ZSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY2OTk4NjU5fQ.uTJsD8u9PAWIaCGYyOZGPFPh8TKM1CHwnzFpRaPbSyE
+      responses:
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                errors: Not authenticated
+        undefined:
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Ok
+                  value:
+                    message: Email confirmed successfuly
+                example-1:
+                  summary: User doesn't exists
+                  value:
+                    errors: The user you try to confirm doesn't exists
+            text/plain:
+              schema:
+                type: string
+              example: null

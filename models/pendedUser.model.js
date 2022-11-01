@@ -46,13 +46,7 @@ const attributes = {
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false,
-    set(value) {
-      if (value) {
-        hashedValue = bcrypt.hashSync(value, 10);
-        this.setDataValue('password', hashedValue);
-      }
-    }
+    allowNull: false
   },
 }
 

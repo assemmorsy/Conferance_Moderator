@@ -25,11 +25,11 @@ module.exports = async (req, res, next) => {
     }
 
 		await user.reload({
-			attributes: { exclude: ['password'] },
 			include: [Specialty, ScientificDegree, University] 
 		});
-
-    const token = generateJwtForLoggedInUser({ user: { id: user.id, name: user.name, email: user.email, phone: user.phone }, role: roles.user });
+		delete user.password;
+    const token = generateJwtForLoggedInUser(
+			{ user: { id: user.id, name: user.name, email: user.email, phone: user.phone }, role: roles.user });
     return res.status(200).json({ 'message': 'Authenticated', data: user, token: token });
   } catch (err) {
     next(err);

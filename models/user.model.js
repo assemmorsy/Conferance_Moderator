@@ -41,9 +41,6 @@ const attributes = {
       this.setDataValue('fullName', value.charAt(0).toUpperCase() + value.slice(1).toLowerCase());
     }
   },
-  jobTitle: {
-    type: DataTypes.TEXT
-  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -62,7 +59,13 @@ const attributes = {
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    set(value) {
+      if (value) {
+        hashedValue = bcrypt.hashSync(value, 10);
+        this.setDataValue('password', hashedValue);
+      }
+    }
   },
 
   imagePath: {
