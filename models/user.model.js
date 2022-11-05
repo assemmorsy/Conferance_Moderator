@@ -12,6 +12,10 @@ class User extends Model {
       foreignKey: 'specialtyId'
     });
 
+    User.belongsTo(models.university, {
+      foreignKey: 'universityId'
+    });
+
     User.belongsTo(models.scientificDegree, {
       foreignKey: 'scientificDegreeId'
     });
@@ -19,6 +23,10 @@ class User extends Model {
     User.belongsTo(models.university, {
       foreignKey: 'universityId'
     });
+
+    User.belongsToMany(models.conference, { 
+			through: models.user_conference 
+		});
   }
 }
 

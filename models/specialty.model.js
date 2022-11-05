@@ -3,9 +3,14 @@ const db = require("../utils/db");
 
 class Specialty extends Model {
   static associate(models) {
+		
     Specialty.hasMany(models.user, {
       as: 'users', foreignKey: 'specialtyId'
     });
+
+		Specialty.belongsToMany(models.conference, {
+			through: models.conference_specialty
+		})
   }
 }
 
