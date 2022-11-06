@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../utils/db");
+const OrganizationCompany = require("./organizationCompany");
 
 class Conference extends Model {
   static associate(models) {
@@ -15,6 +16,10 @@ class Conference extends Model {
 		Conference.belongsToMany(models.accommodationPlace, {
 			through: models.conference_accommodation
 		});
+
+		Conference.belongsTo(models.organizationCompany, {
+			foreignKey: 'organizationCompanyId'
+		})
   }
 }
 
@@ -67,7 +72,14 @@ const attributes = {
   },
   broshurePath: {
     type: DataTypes.STRING
-  }
+  },
+	organizationCompanyId: {
+		type: DataTypes.UUID,
+		references: {
+			model: OrganizationCompany,
+			key: 'id'
+		}
+	}
 }
 
 Conference.init(attributes, options);

@@ -4,6 +4,7 @@ const db = require('../utils/db');
 const ScientificDegree = require("./scientificDegree.model");
 const Specialty = require("./specialty.model");
 const University = require("./university.model");
+const Faculty = require("./faculty");
 
 class User extends Model {
   static associate(models) {
@@ -22,6 +23,10 @@ class User extends Model {
 
     User.belongsTo(models.university, {
       foreignKey: 'universityId'
+    });
+
+    User.belongsTo(models.faculty, {
+      foreignKey: 'facultyId'
     });
 
     User.belongsToMany(models.conference, { 
@@ -111,6 +116,13 @@ const attributes = {
     type: DataTypes.INTEGER,
     references: {
       model: University,
+      key: 'id'
+    }
+  },
+  facultyId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Faculty,
       key: 'id'
     }
   }
